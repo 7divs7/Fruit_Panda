@@ -1,2 +1,9 @@
 # Fruit_Panda
-Catch as many fruits as you can. Avoid the bombz!
+
+Have fun playing this fast paced fruit catching game!
+Move the basket back and forth to catch as many fallig fruits as you can
+But beware of the BOMBSSS!!
+
+Planning to implement NEAT Genetic Algorithm soon
+Cya!
+
