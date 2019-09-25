@@ -9,7 +9,7 @@ So beware of the BOMBSSS!!
 ![readme_divz-2019-09-25_173039](https://user-images.githubusercontent.com/36446402/65601320-7f5c1700-dfbf-11e9-8360-5e954856c5aa.gif)
 
 
-
+Also, you can adjust the speed of the game.
 Planning to implement NEAT Genetic Algorithm soon.
 Cya!
 
