@@ -2,6 +2,7 @@ import pygame
 import os
 import random
 import math 
+import time
 
 class Basket:
     def __init__(self,x,y):
@@ -44,21 +45,37 @@ class Fruit:
             return True
         return False
 
-def draw_win(win,basket,fruits,score):
+def lives(win,life):
+    p=0
+    for i in range(life):
+        win.blit(pygame.image.load(os.path.join("images","pandalife.png")),(750+p,10))
+        p+=70
+
+def draw_win(win,basket,fruits,score,life):
     #win.fill((0,128,0))
-    win.blit(pygame.image.load(os.path.join("images","background.jpg")),(0,0))
-    for i in fruits:
-        i.draw(win)
-    basket.draw(win)
-    pygame.font.init()
-    score_font = pygame.font.SysFont("Forte",50)
-    score_text = score_font.render("Score: "+str(score),1,(0,255,0))
-    win.blit(score_text,(10,10))
-    pygame.display.update()
+    if life == 0:
+        win.blit(pygame.image.load(os.path.join("images","gameover.png")),(100,250))
+        pygame.display.update()
+        time.sleep(5)
+        pygame.quit()
+    else:
+        win.blit(pygame.image.load(os.path.join("images","background.jpg")),(0,0))
+        #win.blit(pygame.image.load(os.path.join("images","fruit.png")),(800,10))
+        lives(win,life)
+        
+        for i in fruits:
+            i.draw(win)
+        basket.draw(win)
+        pygame.font.init()
+        score_font = pygame.font.SysFont("Forte",50)
+        score_text = score_font.render("Score: "+str(score),1,(0,255,0))
+        win.blit(score_text,(10,10))
+        pygame.display.update()
 
 def main():
     basket = Basket(230,800)
     fruits = [Fruit()]
+    life = 3
     pygame.init()
     win = pygame.display.set_mode((1000,1000))
     pygame.display.set_caption('Fruit Basket!')
@@ -83,12 +100,14 @@ def main():
             if i.collide(basket):
                 if i.divz == 0:
                     score -= 5
+                    life -= 1
                 else:
                     score += 1
 
                 #score += 1 
                 del_fruit.append(i)
                 add_fruit = True
+            
             if i.y>1000:
                 del_fruit.append(i)
             if not i.passed and i.y>basket.y:
@@ -102,7 +121,7 @@ def main():
         for j in del_fruit:
             fruits.remove(j)
         
-        draw_win(win,basket,fruits,score)
+        draw_win(win,basket,fruits,score,life)
     pygame.quit()
     quit()
 main()
