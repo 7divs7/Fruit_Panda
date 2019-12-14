@@ -10,6 +10,5 @@ So beware of the BOMBSSS!!
 
 
 Also, you can adjust the speed of the game.
-Planning to implement NEAT Genetic Algorithm soon.
-Cya!
+
 
