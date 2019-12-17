@@ -32,7 +32,11 @@ class Fruit:
         self.passed = False
         self.divz = random.randrange(0,3)    
         self.fruit_img = pygame.transform.flip(pygame.transform.flip(fruit_image[self.divz],False,True),False,True)
-        
+        if self.divz == 0:
+            self.bof = 0
+        else:
+            self.bof = 1
+
     def move(self):
         self.y += 15
 
@@ -47,15 +51,8 @@ class Fruit:
         if point:
             return True
         return False
-'''
-def lives(win,life):
-    p=0
-    for i in range(life):
-        win.blit(pygame.image.load(os.path.join("images","pandalife.png")).convert_alpha(),(550+p,10))
-        p+=70
-'''
 
-def draw_win(win,basket,fruits,score,gen):
+def draw_win(win,baskets,fruits,score,gen):
     #win.fill((0,128,0))
     
     win.blit(pygame.image.load(os.path.join("images","background.jpg")).convert(),(0,0))
@@ -64,7 +61,8 @@ def draw_win(win,basket,fruits,score,gen):
     
     for i in fruits:
         i.draw(win)
-    basket.draw(win)
+    for basket in baskets:
+        basket.draw(win)
     pygame.font.init()
     score_font = pygame.font.SysFont("Forte",50)
     score_text = score_font.render("Score: "+str(score),1,(0,255,0))
@@ -125,15 +123,15 @@ def main(genomes,config):
         for x,basket in enumerate(baskets):
             ge[x].fitness += 0.1
             
-            d = math.sqrt((basket.x-fruits[curr_fruit].x)**2+(basket.y-fruits[curr_fruit].y)**2)
-            output = nets[x].activate((basket.x,fruits[curr_fruit].divz,abs(d)))
+            #d = math.sqrt((basket.x-fruits[curr_fruit].x)**2+(basket.y-fruits[curr_fruit].y)**2)
+            output = nets[x].activate((basket.x,fruits[curr_fruit].x,fruits[curr_fruit].y,fruits[curr_fruit].bof))
 
             
             if output[0]>0.5:
                 basket.x-=basket.vel
-            if output[1]>0.5:
+            elif output[1]>0.5:
                 basket.x+=basket.vel
-        
+            
 
         add_fruit = False
         del_fruit = []
@@ -165,7 +163,7 @@ def main(genomes,config):
             fruits.remove(i)
 
 
-        draw_win(win,basket,fruits,score,gen)
+        draw_win(win,baskets,fruits,score,gen)
     
 
 if __name__=="__main__":
